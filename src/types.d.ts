@@ -61,21 +61,20 @@ type Bool = {
   location: Location;
 }
 
-enum BinaryOp {
-  Add,
-  Sub,
-  Mul,
-  Div,
-  Rem,
-  Eq,
-  Neq,
-  Lt,
-  Gt,
-  Lte,
-  Gte,
-  And,
-  Or
-}
+type BinaryOp =
+  | "Add"
+  | "Sub"
+  | "Mul"
+  | "Div"
+  | "Rem"
+  | "Eq"
+  | "Neq"
+  | "Lt"
+  | "Gt"
+  | "Lte"
+  | "Gte"
+  | "And"
+  | "Or";
 
 type Binary = {
   kind: "Binary";
