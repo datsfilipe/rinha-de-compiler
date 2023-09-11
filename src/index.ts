@@ -1,5 +1,5 @@
+import { resolve } from "path";
 import { interpret } from "./interpreter";
 
-const ast = await Bun.readableStreamToJSON(Bun.stdin.stream())
-interpret(ast.expression)
+interpret(await Bun.file(resolve(process.argv.at(-1) as string)).json())
 console.log(Bun.nanoseconds())
