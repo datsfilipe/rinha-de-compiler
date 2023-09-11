@@ -2,6 +2,9 @@
   "name": "rinha-ts",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun src/index.ts"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },
