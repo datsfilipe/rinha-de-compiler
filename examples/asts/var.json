@@ -1,0 +1,50 @@
+{
+  "name": "examples/var.rinha",
+  "expression": {
+    "kind": "Let",
+    "name": {
+      "text": "a",
+      "location": {
+        "start": 4,
+        "end": 5,
+        "filename": "examples/var.rinha"
+      }
+    },
+    "value": {
+      "kind": "Int",
+      "value": 5,
+      "location": {
+        "start": 8,
+        "end": 9,
+        "filename": "examples/var.rinha"
+      }
+    },
+    "next": {
+      "kind": "Print",
+      "value": {
+        "kind": "Var",
+        "text": "a",
+        "location": {
+          "start": 17,
+          "end": 18,
+          "filename": "examples/var.rinha"
+        }
+      },
+      "location": {
+        "start": 11,
+        "end": 19,
+        "filename": "examples/var.rinha"
+      }
+    },
+    "location": {
+      "start": 0,
+      "end": 19,
+      "filename": "examples/var.rinha"
+    }
+  },
+  "location": {
+    "start": 0,
+    "end": 19,
+    "filename": "examples/var.rinha"
+  }
+}

@@ -120,3 +120,7 @@ type Print = {
 export type Term = Var | Function | Call | Let | Str | Int | Bool | Binary | If | Tuple | First | Second | Print;
 
 export type Node = File | Term;
+
+export interface HashMap<T> {
+  [key: string]: T;
+}
