@@ -1,5 +1,5 @@
 import { interpret } from "./interpreter";
 
-let rawData = Bun.file("./examples/asts/hello.json");
-let ast = await rawData.json()
+const ast = await Bun.readableStreamToJSON(Bun.stdin.stream())
 interpret(ast.expression)
+console.log(Bun.nanoseconds())
