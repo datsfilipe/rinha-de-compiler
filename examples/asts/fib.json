@@ -189,7 +189,7 @@
         "arguments": [
           {
             "kind": "Int",
-            "value": 50,
+            "value": 10,
             "location": {
               "start": 101,
               "end": 103,
@@ -205,8 +205,8 @@
       },
       "location": {
         "start": 90,
-        "filename": "examples/fib.rinha"
         "end": 105,
+        "filename": "examples/fib.rinha"
       }
     },
     "location": {
