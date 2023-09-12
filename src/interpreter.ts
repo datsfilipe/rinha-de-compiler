@@ -64,7 +64,7 @@ export function interpret(node: Node, env: HashMap<Term>): any {
       if (env[term.text]) {
         return env[term.text];
       } else {
-        error(`Variable ${term.text} not found`, term);
+        return error(`Variable ${term.text} not found`, term);
       }
     default:
       error("Unreachable", term);
