@@ -10,6 +10,18 @@ const error = (message: string, node: Node) => {
   process.exit(1);
 };
 
+const clojure = (fn: Function, env: HashMap<Term>) => {
+  return {
+    call: (args: Term[]) => {
+      const newEnv = { ...env };
+      fn.parameters.map((param, index) => {
+        newEnv[param.text] = args[index];
+      });
+      return interpret(fn.value, newEnv);
+    },
+  };
+};
+
 export function interpret(node: Node, env: HashMap<Term>): any {
   if ((node as File)?.expression) {
     return interpret((node as File).expression, env);
@@ -61,7 +73,7 @@ export function interpret(node: Node, env: HashMap<Term>): any {
     case "Let":
       return interpret(term.next, { ...env, [term.name.text]: interpret(term.value, env) });
     case "Var":
-      if (env[term.text]) {
+      if (env[term.text] !== undefined) {
         return env[term.text];
       } else {
         return error(`Variable ${term.text} not found`, term);
@@ -75,11 +87,7 @@ export function interpret(node: Node, env: HashMap<Term>): any {
     case "Function":
       return term
     case "Call":
-      const fn = interpret(term.callee, env) as Function
-      fn.parameters.map((param, index) => {
-        env[param.text] = interpret(term.arguments[index], env)
-      })
-      return interpret(fn.value, env)
+      return clojure(interpret(term.callee, env), env).call(term.arguments.map((arg) => interpret(arg, env)));
     default:
       error("Unreachable", term);
     break;
