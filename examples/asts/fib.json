@@ -205,8 +205,8 @@
       },
       "location": {
         "start": 90,
-        "end": 105,
         "filename": "examples/fib.rinha"
+        "end": 105,
       }
     },
     "location": {
