@@ -1,4 +1,4 @@
-import { Term, Node, File, HashMap } from "./types";
+import { Term, Node, File, HashMap, Function } from "./types";
 
 const error = (message: string, node: Node) => {
   console.error(`${message}
@@ -66,6 +66,20 @@ export function interpret(node: Node, env: HashMap<Term>): any {
       } else {
         return error(`Variable ${term.text} not found`, term);
       }
+    case "If":
+      if (interpret(term.condition, env)) {
+        return interpret(term.then, env);
+      } else {
+        return interpret(term.otherwise, env);
+      }
+    case "Function":
+      return term
+    case "Call":
+      const fn = interpret(term.callee, env) as Function
+      fn.parameters.map((param, index) => {
+        env[param.text] = interpret(term.arguments[index], env)
+      })
+      return interpret(fn.value, env)
     default:
       error("Unreachable", term);
     break;

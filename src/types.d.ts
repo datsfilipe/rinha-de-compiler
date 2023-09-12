@@ -21,7 +21,7 @@ type Var = {
   location: Location;
 }
 
-type Function = {
+export type Function = {
   kind: "Function";
   parameters: Parameter[];
   value: Term;
