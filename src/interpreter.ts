@@ -31,7 +31,13 @@ export function interpret(node: Node, env: HashMap<Term>): any {
 
   switch (term.kind) {
     case "Print":
-      console.log(interpret(term.value, env));
+      const value = interpret(term.value, env);
+
+      if (value.kind === "Function") {
+        return console.log("<#closure>");
+      }
+
+      return console.log(value);
     case "Str":
       return term.value;
     case "Int":
