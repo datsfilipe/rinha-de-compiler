@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun src/index.ts"
+    "dev": "bun --hot src/index.ts",
+    "start": "bun /var/rinha/source.rinha.json"
   },
   "devDependencies": {
     "bun-types": "latest"
