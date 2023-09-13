@@ -1,9 +1,21 @@
 import { Term, Node, File, HashMap, Function } from "./types";
 
-const error = (message: string, node: Node, help?: string) => {
+const error = async (message: string, node: Node, help?: string) => {
+  const code = await Bun.file(node.location.filename).text();
+
   console.error(`\x1b[1mError: ${message}\n`);
-  console.log(`Begin of statement at char ${node.location.start} and end of statement at char ${node.location.end}. Not very useful, huh?\n`)
-  console.trace(`\x1b[1mStack trace: \x1b[37m-> ${node.location.filename}`);
+  const lines = code.split("\n");
+
+  let charCount = 0;
+  for (let i = 0; i < lines.length; i++) {
+    charCount += lines[i].length + 1;
+    const indent = " ".repeat(4 - i.toString().length);
+    if (node.location.start < charCount) {
+      console.error(`\x1b[90m${i}${indent}\x1b[1m\x1b[31m${lines[i]} <--- Error happens here`);
+      break;
+    }
+    console.log(`\x1b[90m${i}${indent}\x1b[36m${lines[i]}`);
+  }
   if (help) {
     console.info(`\n\x1b[1m\x1b[34mHelp: ${help}`);
   }
@@ -80,13 +92,13 @@ export const interpret: Interpreter = (node, env) => {
       env[term.name.text] = interpret(term.value, env);
       return interpret(term.next, env);
     case "Var":
-      return env[term.text] ?? error(`Variable ${term.text} not found`, term, "Did you forget to declare it? You can declare it with `let` keyword.");
+      return env[term.text] ?? error(`Variable ${term.text} not found`, term, "To declare a variable do: `let variableName = 1`.")
     case "Tuple":
       return [interpret(term.first, env), interpret(term.second, env)];
     case "First":
-      return interpret(term.value, env)[0] ?? error("First expects a valid tuple", term, "The correct syntax is `first((1, 2))` or pass a variable that contains a tuple.")
+      return interpret(term.value, env)[0] ?? error("First expects a valid tuple", term, "To declare a tuple do: `let tuple = (1, 2)` or pass one directly for use, like `print((1, 2))`.")
     case "Second":
-      return interpret(term.value, env)[1] ?? error("Second expects a valid tuple", term, "The correct syntax is `second((1, 2))` or pass a variable that contains a tuple.")
+      return interpret(term.value, env)[1] ?? error("Second expects a valid tuple", term, "To declare a tuple do: `let tuple = (1, 2)` or pass one directly for use, like `print((1, 2))`.")
     case "If":
       if (interpret(term.condition, env) === true) {
         return interpret(term.then, env);
@@ -98,7 +110,7 @@ export const interpret: Interpreter = (node, env) => {
       const callee = interpret(term.callee, env);
       if ((callee as Term)?.kind === "Function")
         return clojure(callee, env).call(term.arguments.map((arg) => interpret(arg, env)));
-      return error("Attempt to call a non-function value", term, "The correct syntax is `functionName(arguments)` or pass a variable that contains a function.")
+      return error("Attempt to call a non-function value", term, "To declare a function do: `let functionName = fn(params) => {}`.")
     default:
       return error("Unreachable", term);
   }
