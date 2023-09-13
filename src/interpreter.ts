@@ -95,7 +95,10 @@ export const interpret: Interpreter = (node, env) => {
     case "Function":
       return term
     case "Call":
-      return clojure(interpret(term.callee, env), env).call(term.arguments.map((arg) => interpret(arg, env)));
+      const callee = interpret(term.callee, env);
+      if ((callee as Term)?.kind === "Function")
+        return clojure(callee, env).call(term.arguments.map((arg) => interpret(arg, env)));
+      return error("Attempt to call a non-function value", term, "The correct syntax is `functionName(arguments)` or pass a variable that contains a function.")
     default:
       return error("Unreachable", term);
   }
