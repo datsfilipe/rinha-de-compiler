@@ -1,11 +1,11 @@
 import { Term, Node, File, HashMap, Function } from "./types";
 
 const error = (message: string, node: Node, help?: string) => {
-  console.error(`\033[1mError: ${message}\n`);
+  console.error(`\x1b[1mError: ${message}\n`);
   console.log(`Begin of statement at char ${node.location.start} and end of statement at char ${node.location.end}. Not very useful, huh?\n`)
-  console.trace(`\033[1mStack trace: \x1b[37m-> ${node.location.filename}`);
+  console.trace(`\x1b[1mStack trace: \x1b[37m-> ${node.location.filename}`);
   if (help) {
-    console.info(`\n\033[1m\x1b[34mHelp: ${help}`);
+    console.info(`\n\x1b[1m\x1b[34mHelp: ${help}`);
   }
   console.log("-----------------------------------------------")
   process.exit(1);
@@ -80,7 +80,6 @@ export const interpret: Interpreter = (node, env) => {
       return interpret(term.next, { ...env, [term.name.text]: interpret(term.value, env) });
     case "Var":
       return env[term.text] ?? error(`Variable ${term.text} not found`, term, "Did you forget to declare it? You can declare it with `let` keyword.");
-      return varValue;
     case "Tuple":
       return [interpret(term.first, env), interpret(term.second, env)];
     case "First":
