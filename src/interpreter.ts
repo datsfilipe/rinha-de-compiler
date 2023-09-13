@@ -1,11 +1,13 @@
 import { Term, Node, File, HashMap, Function } from "./types";
 
-const error = (message: string, node: Node) => {
-  console.error(`${message}
-    at: start -> ${node.location.start}
-    at: end -> ${node.location.end}
-    at: file -> ${node.location.filename}
-  `);
+const error = (message: string, node: Node, help?: string) => {
+  console.error(`\033[1mError: ${message}\n`);
+  console.log(`Begin of statement at char ${node.location.start} and end of statement at char ${node.location.end}. Not very useful, huh?\n`)
+  console.trace(`\033[1mStack trace: \x1b[37m-> ${node.location.filename}`);
+  if (help) {
+    console.info(`\n\033[1m\x1b[34mHelp: ${help}`);
+  }
+  console.log("-----------------------------------------------")
   process.exit(1);
 };
 
@@ -77,20 +79,14 @@ export const interpret: Interpreter = (node, env) => {
     case "Let":
       return interpret(term.next, { ...env, [term.name.text]: interpret(term.value, env) });
     case "Var":
-      const varValue = env[term.text]
-      if (varValue === undefined)
-        return error(`Variable ${term.text} not found`, term);
+      return env[term.text] ?? error(`Variable ${term.text} not found`, term, "Did you forget to declare it? You can declare it with `let` keyword.");
       return varValue;
     case "Tuple":
       return [interpret(term.first, env), interpret(term.second, env)];
     case "First":
-      if ((term.value.kind === "Tuple") || (term.value.kind === "Var"))
-        return interpret(term.value, env)[0];;
-      return error("First expects a valid tuple", term);
+      return interpret(term.value, env)[0] ?? error("First expects a valid tuple", term, "The correct syntax is `first((1, 2))` or pass a variable that contains a tuple.")
     case "Second":
-      if ((term.value.kind === "Tuple") || (term.value.kind === "Var"))
-        return interpret(term.value, env)[1];
-      return error("Second expects a valid tuple", term);
+      return interpret(term.value, env)[1] ?? error("Second expects a valid tuple", term, "The correct syntax is `second((1, 2))` or pass a variable that contains a tuple.")
     case "If":
       if (interpret(term.condition, env) === true) {
         return interpret(term.then, env);
