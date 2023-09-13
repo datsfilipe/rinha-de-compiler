@@ -107,8 +107,8 @@ export const interpret: Interpreter = (node, env) => {
     case "Function":
       return term
     case "Call":
-      const callee = interpret(term.callee, env);
-      if ((callee as Term)?.kind === "Function")
+      const callee = interpret(term.callee, env) as Term;
+      if (callee?.kind === "Function")
         return clojure(callee, env).call(term.arguments.map((arg) => interpret(arg, env)));
       return error("Attempt to call a non-function value", term, "To declare a function do: `let functionName = fn(params) => {}`.")
     default:
