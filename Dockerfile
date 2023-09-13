@@ -1,10 +1,11 @@
 FROM oven/bun
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json bun.lockb ./
 RUN bun install
-COPY . .
+COPY src/ ./src/
+COPY examples/asts/fib.json /var/rinha/source.rinha.json
 
 ENV NODE_ENV production
 

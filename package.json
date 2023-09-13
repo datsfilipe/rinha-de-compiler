@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --hot src/index.ts",
-    "start": "bun /var/rinha/source.rinha.json"
+    "start": "bun src/index.ts /var/rinha/source.rinha.json"
   },
   "devDependencies": {
     "bun-types": "latest"
