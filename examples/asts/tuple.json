@@ -1,0 +1,279 @@
+{
+  "name": "examples/tuple.rinha",
+  "expression": {
+    "kind": "Let",
+    "name": {
+      "text": "a",
+      "location": {
+        "start": 4,
+        "end": 5,
+        "filename": "examples/tuple.rinha"
+      }
+    },
+    "value": {
+      "kind": "Tuple",
+      "first": {
+        "kind": "Int",
+        "value": 13898122,
+        "location": {
+          "start": 9,
+          "end": 17,
+          "filename": "examples/tuple.rinha"
+        }
+      },
+      "second": {
+        "kind": "Str",
+        "value": "asjasghghhdfgash",
+        "location": {
+          "start": 18,
+          "end": 36,
+          "filename": "examples/tuple.rinha"
+        }
+      },
+      "location": {
+        "start": 8,
+        "end": 37,
+        "filename": "examples/tuple.rinha"
+      }
+    },
+    "next": {
+      "kind": "Let",
+      "name": {
+        "text": "b",
+        "location": {
+          "start": 43,
+          "end": 44,
+          "filename": "examples/tuple.rinha"
+        }
+      },
+      "value": {
+        "kind": "Tuple",
+        "first": {
+          "kind": "Int",
+          "value": 138983,
+          "location": {
+            "start": 48,
+            "end": 54,
+            "filename": "examples/tuple.rinha"
+          }
+        },
+        "second": {
+          "kind": "Str",
+          "value": "asjhdfgashaidh",
+          "location": {
+            "start": 55,
+            "end": 71,
+            "filename": "examples/tuple.rinha"
+          }
+        },
+        "location": {
+          "start": 47,
+          "end": 72,
+          "filename": "examples/tuple.rinha"
+        }
+      },
+      "next": {
+        "kind": "Let",
+        "name": {
+          "text": "c",
+          "location": {
+            "start": 78,
+            "end": 79,
+            "filename": "examples/tuple.rinha"
+          }
+        },
+        "value": {
+          "kind": "Tuple",
+          "first": {
+            "kind": "Int",
+            "value": 1389817,
+            "location": {
+              "start": 83,
+              "end": 90,
+              "filename": "examples/tuple.rinha"
+            }
+          },
+          "second": {
+            "kind": "Str",
+            "value": "ashgasjhdfgajklsh",
+            "location": {
+              "start": 91,
+              "end": 110,
+              "filename": "examples/tuple.rinha"
+            }
+          },
+          "location": {
+            "start": 82,
+            "end": 111,
+            "filename": "examples/tuple.rinha"
+          }
+        },
+        "next": {
+          "kind": "Let",
+          "name": {
+            "text": "d",
+            "location": {
+              "start": 117,
+              "end": 118,
+              "filename": "examples/tuple.rinha"
+            }
+          },
+          "value": {
+            "kind": "Tuple",
+            "first": {
+              "kind": "Int",
+              "value": 138981841,
+              "location": {
+                "start": 122,
+                "end": 131,
+                "filename": "examples/tuple.rinha"
+              }
+            },
+            "second": {
+              "kind": "Str",
+              "value": "asjhdfgashosai",
+              "location": {
+                "start": 132,
+                "end": 148,
+                "filename": "examples/tuple.rinha"
+              }
+            },
+            "location": {
+              "start": 121,
+              "end": 149,
+              "filename": "examples/tuple.rinha"
+            }
+          },
+          "next": {
+            "kind": "Print",
+            "value": {
+              "kind": "Binary",
+              "lhs": {
+                "kind": "First",
+                "value": {
+                  "kind": "Var",
+                  "text": "a",
+                  "location": {
+                    "start": 163,
+                    "end": 164,
+                    "filename": "examples/tuple.rinha"
+                  }
+                },
+                "location": {
+                  "start": 157,
+                  "end": 165,
+                  "filename": "examples/tuple.rinha"
+                }
+              },
+              "op": "Add",
+              "rhs": {
+                "kind": "Binary",
+                "lhs": {
+                  "kind": "Second",
+                  "value": {
+                    "kind": "Var",
+                    "text": "b",
+                    "location": {
+                      "start": 175,
+                      "end": 176,
+                      "filename": "examples/tuple.rinha"
+                    }
+                  },
+                  "location": {
+                    "start": 168,
+                    "end": 177,
+                    "filename": "examples/tuple.rinha"
+                  }
+                },
+                "op": "Add",
+                "rhs": {
+                  "kind": "Binary",
+                  "lhs": {
+                    "kind": "First",
+                    "value": {
+                      "kind": "Var",
+                      "text": "c",
+                      "location": {
+                        "start": 186,
+                        "end": 187,
+                        "filename": "examples/tuple.rinha"
+                      }
+                    },
+                    "location": {
+                      "start": 180,
+                      "end": 188,
+                      "filename": "examples/tuple.rinha"
+                    }
+                  },
+                  "op": "Add",
+                  "rhs": {
+                    "kind": "Second",
+                    "value": {
+                      "kind": "Var",
+                      "text": "d",
+                      "location": {
+                        "start": 198,
+                        "end": 199,
+                        "filename": "examples/tuple.rinha"
+                      }
+                    },
+                    "location": {
+                      "start": 191,
+                      "end": 200,
+                      "filename": "examples/tuple.rinha"
+                    }
+                  },
+                  "location": {
+                    "start": 180,
+                    "end": 200,
+                    "filename": "examples/tuple.rinha"
+                  }
+                },
+                "location": {
+                  "start": 168,
+                  "end": 200,
+                  "filename": "examples/tuple.rinha"
+                }
+              },
+              "location": {
+                "start": 157,
+                "end": 200,
+                "filename": "examples/tuple.rinha"
+              }
+            },
+            "location": {
+              "start": 151,
+              "end": 201,
+              "filename": "examples/tuple.rinha"
+            }
+          },
+          "location": {
+            "start": 113,
+            "end": 201,
+            "filename": "examples/tuple.rinha"
+          }
+        },
+        "location": {
+          "start": 74,
+          "end": 201,
+          "filename": "examples/tuple.rinha"
+        }
+      },
+      "location": {
+        "start": 39,
+        "end": 201,
+        "filename": "examples/tuple.rinha"
+      }
+    },
+    "location": {
+      "start": 0,
+      "end": 201,
+      "filename": "examples/tuple.rinha"
+    }
+  },
+  "location": {
+    "start": 0,
+    "end": 201,
+    "filename": "examples/tuple.rinha"
+  }
+}

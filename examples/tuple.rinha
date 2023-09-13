@@ -1,0 +1,5 @@
+let a = (13898122,"asjasghghhdfgash");
+let b = (138983,"asjhdfgashaidh");
+let c = (1389817,"ashgasjhdfgajklsh");
+let d = (138981841,"asjhdfgashosai");
+print(first(a) + second(b) + first(c) + second(d))

@@ -47,7 +47,10 @@ export function interpret(node: Node, env: HashMap<Term>): any {
     case "Binary":
       switch (term.op) {
         case "Add":
-          return interpret(term.lhs, env) + interpret(term.rhs, env);
+          if (term.lhs.kind === "Str" || term.rhs.kind === "Str")
+            return `${interpret(term.lhs, env)}${interpret(term.rhs, env)}`
+          else
+            return interpret(term.lhs, env) + interpret(term.rhs, env);
         case "Sub":
           return interpret(term.lhs, env) - interpret(term.rhs, env);
         case "Mul":
@@ -83,6 +86,20 @@ export function interpret(node: Node, env: HashMap<Term>): any {
         return env[term.text];
       } else {
         return error(`Variable ${term.text} not found`, term);
+      }
+    case "Tuple":
+      return [interpret(term.first, env), interpret(term.second, env)];
+    case "First":
+      if (term.value.kind === "Tuple" || term.value.kind === "Var")
+        return interpret(term.value, env)[0];
+      else {
+        return error("First expects a valid tuple", term);
+      }
+    case "Second":
+      if (term.value.kind === "Tuple" || term.value.kind === "Var")
+        return interpret(term.value, env)[1];
+      else {
+        return error("Second expects a valid tuple", term);
       }
     case "If":
       if (interpret(term.condition, env)) {
