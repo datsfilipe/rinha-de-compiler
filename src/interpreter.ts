@@ -77,7 +77,8 @@ export const interpret: Interpreter = (node, env) => {
           return error("Unreachable", term);
       }
     case "Let":
-      return interpret(term.next, { ...env, [term.name.text]: interpret(term.value, env) });
+      env[term.name.text] = interpret(term.value, env);
+      return interpret(term.next, env);
     case "Var":
       return env[term.text] ?? error(`Variable ${term.text} not found`, term, "Did you forget to declare it? You can declare it with `let` keyword.");
     case "Tuple":
