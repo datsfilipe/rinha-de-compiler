@@ -6,37 +6,34 @@ const error = (message: string, node: Node) => {
     at: end -> ${node.location.end}
     at: file -> ${node.location.filename}
   `);
-
   process.exit(1);
 };
 
 const clojure = (fn: Function, env: HashMap<Term>) => {
-  return {
-    call: (args: Term[]) => {
-      const newEnv = { ...env };
-      fn.parameters.map((param, index) => {
-        newEnv[param.text] = args[index];
-      });
-      return interpret(fn.value, newEnv);
-    },
+  const call = (args: Term[]) => {
+    const newEnv = { ...env };
+    for (let i = 0; i < fn.parameters.length; i++) {
+      newEnv[fn.parameters[i].text] = args[i];
+    }
+    return interpret(fn.value, newEnv);
   };
+  return { call };
 };
 
-export function interpret(node: Node, env: HashMap<Term>): any {
+type Interpreter = (node: Node, env: HashMap<Term>) => any;
+
+export const interpret: Interpreter = (node, env) => {
   if ((node as File)?.expression) {
     return interpret((node as File).expression, env);
   }
-
   const term = node as Term;
 
   switch (term.kind) {
     case "Print":
       const value = interpret(term.value, env);
 
-      if (value.kind === "Function") {
+      if ((value as Term)?.kind === "Function")
         return console.log("<#closure>");
-      }
-
       return console.log(value);
     case "Str":
       return term.value;
@@ -47,10 +44,9 @@ export function interpret(node: Node, env: HashMap<Term>): any {
     case "Binary":
       switch (term.op) {
         case "Add":
-          if (term.lhs.kind === "Str" || term.rhs.kind === "Str")
+          if ((term.lhs.kind === "Str") || (term.rhs.kind === "Str"))
             return `${interpret(term.lhs, env)}${interpret(term.rhs, env)}`
-          else
-            return interpret(term.lhs, env) + interpret(term.rhs, env);
+          return interpret(term.lhs, env) + interpret(term.rhs, env);
         case "Sub":
           return interpret(term.lhs, env) - interpret(term.rhs, env);
         case "Mul":
@@ -76,43 +72,35 @@ export function interpret(node: Node, env: HashMap<Term>): any {
         case "Or":
           return interpret(term.lhs, env) || interpret(term.rhs, env);
         default:
-          error("Unreachable", term);
+          return error("Unreachable", term);
       }
-      break;
     case "Let":
       return interpret(term.next, { ...env, [term.name.text]: interpret(term.value, env) });
     case "Var":
-      if (env[term.text] !== undefined) {
-        return env[term.text];
-      } else {
+      const varValue = env[term.text]
+      if (varValue === undefined)
         return error(`Variable ${term.text} not found`, term);
-      }
+      return varValue;
     case "Tuple":
       return [interpret(term.first, env), interpret(term.second, env)];
     case "First":
-      if (term.value.kind === "Tuple" || term.value.kind === "Var")
-        return interpret(term.value, env)[0];
-      else {
-        return error("First expects a valid tuple", term);
-      }
+      if ((term.value.kind === "Tuple") || (term.value.kind === "Var"))
+        return interpret(term.value, env)[0];;
+      return error("First expects a valid tuple", term);
     case "Second":
-      if (term.value.kind === "Tuple" || term.value.kind === "Var")
+      if ((term.value.kind === "Tuple") || (term.value.kind === "Var"))
         return interpret(term.value, env)[1];
-      else {
-        return error("Second expects a valid tuple", term);
-      }
+      return error("Second expects a valid tuple", term);
     case "If":
-      if (interpret(term.condition, env)) {
+      if (interpret(term.condition, env) === true) {
         return interpret(term.then, env);
-      } else {
-        return interpret(term.otherwise, env);
       }
+      return interpret(term.otherwise, env);
     case "Function":
       return term
     case "Call":
       return clojure(interpret(term.callee, env), env).call(term.arguments.map((arg) => interpret(arg, env)));
     default:
-      error("Unreachable", term);
-    break;
+      return error("Unreachable", term);
   }
 }
